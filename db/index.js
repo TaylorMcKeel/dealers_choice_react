@@ -1,63 +1,7 @@
 const Sequelize = require('sequelize');
-const { STRING, INTEGER } = Sequelize;
-// const Pokemon = require('./pokemon')
-// const Trainor = require('./trainor')
-const db = new Sequelize('postgres://localhost/pokemon')
-
-const Pokemon = db.define('pokemon',{
-    name: {
-        type: STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
-    },
-    type: {
-        type: STRING,
-        allowNull: false,
-       
-    },
-    health: {
-        type: INTEGER,
-        allowNull: false,
-        validate: {
-            isNumeric: true
-        }
-    },
-    attack: {
-        type: STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
-    }
-})
-
-const Trainor = db.define('trainor',{
-    name: {
-        type: STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
-    },
-    hometown: {
-        type: STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
-    },
-    age: {
-        type: INTEGER,
-        allowNull: false,
-        validate: {
-            isNumeric: true
-        }
-    }
-})
-
-
+const Pokemon = require('./pokemon')
+const Trainor = require('./trainor')
+const db = require('./db')
 Pokemon.belongsTo(Trainor)
 Trainor.hasMany(Pokemon)
 
