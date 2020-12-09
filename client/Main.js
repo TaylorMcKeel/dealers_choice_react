@@ -12,12 +12,13 @@ class Main extends Component{
             trainor: []
         }
     }
-    componentDidMount(){
+    async componentDidMount (){
         try{
             const pokemon = await (axios.get('/api/pokemon')).data
             const trainors = await (axios.get('/api/trainors')).data
             this.setState({pokemon, trainors})
             console.log(this.state)
+            //add event listeners here
         }
         catch(er){
             console.log(er)
