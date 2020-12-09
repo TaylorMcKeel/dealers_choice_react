@@ -1,13 +1,69 @@
-const db = require('db')
-const Pokemon = require('./pokemon')
-const Trainor = require('./trainor')
+const Sequelize = require('sequelize');
+const { STRING, INTEGER } = Sequelize;
+// const Pokemon = require('./pokemon')
+// const Trainor = require('./trainor')
+const db = new Sequelize('postgres://localhost/pokemon')
+
+const Pokemon = db.define('pokemon',{
+    name: {
+        type: STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
+    },
+    type: {
+        type: STRING,
+        allowNull: false,
+       
+    },
+    health: {
+        type: INTEGER,
+        allowNull: false,
+        validate: {
+            isNumeric: true
+        }
+    },
+    attack: {
+        type: STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
+    }
+})
+
+const Trainor = db.define('trainor',{
+    name: {
+        type: STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
+    },
+    hometown: {
+        type: STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
+    },
+    age: {
+        type: INTEGER,
+        allowNull: false,
+        validate: {
+            isNumeric: true
+        }
+    }
+})
+
 
 Pokemon.belongsTo(Trainor)
 Trainor.hasMany(Pokemon)
 
 const sync = async () =>{
     try{
-        await conn.sync({ force: true })
+        await db.sync({ force: true })
         const squirtle = await Pokemon.create({name: 'Squirtle', health: 200,type: 'Water', attack: 'water gun'})
         const charmander =await Pokemon.create({name: 'Charmander', health: 300,type: 'Fire', attack: 'ember'})
         const jigglypuff = await Pokemon.create({name: 'Jigglypuff', health: 100,type: 'Normal', attack: 'sleep'})
@@ -21,9 +77,6 @@ const sync = async () =>{
         jigglypuff.trainorId = misty.id
         onyx.trainorId = brock.id
         magmar.trainorId = ash.id
-        ash.friendId = misty.id
-        misty.friendId = brock.id
-        brock.friendId = ash.id
         await Promise.all([squirtle.save(),charmander.save(),jigglypuff.save(),onyx.save(),magmar.save(),ash.save(),misty.save(),brock.save()])
     }
     catch(ex){
