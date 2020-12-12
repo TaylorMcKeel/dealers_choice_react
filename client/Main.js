@@ -15,6 +15,8 @@ class Main extends Component{
             pokemon: [],
             trainor: []
         }
+        this.removeTrainor = this.removeTrainor.bind(this)
+        this.removePokemon = this.removePokemon.bind(this)
     }
     async componentDidMount (){
         try{
@@ -29,6 +31,16 @@ class Main extends Component{
             console.log(er)
         }
     }
+    async removeTrainor(id){
+        await axios.delete('/api/trainors',{data: {trainId: id}})
+        const trainors = (await axios.get('/api/trainors')).data
+        this.setState({allTrainors: trainors})
+    }
+    async removePokemon(id){
+        await axios.delete('/api/pokemon',{data: {pokeId: id}})
+        const pokemon = (await axios.get('/api/pokemon')).data
+        this.setState({allPokemon: pokemon})
+    }
     render(){
         const {allPokemon, allTrainors} = this.state
         const hash = window.location.hash.slice(1)
@@ -39,8 +51,8 @@ class Main extends Component{
                 <div >
                     
                     <div id='content'>
-                        <AllPokemon pokemon={allPokemon} hash={hash}/>
-                        <AllTrainors trainors={allTrainors} hash={hash}/>
+                        <AllPokemon pokemon={allPokemon} hash={hash} remove={this.removePokemon}/>
+                        <AllTrainors trainors={allTrainors} hash={hash} remove={this.removeTrainor}/>
                     </div>
                    
                 </div>

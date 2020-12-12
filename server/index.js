@@ -45,7 +45,7 @@ app.get('/api/trainors',async(req,res,next)=>{
 
 app.post('/api/pokemon', async (req, res, next) => {
     try {
-        console.log('creating new pokemon')
+        console.log('creating a pokemon')
       const newPokemon = await Pokemon.create({
         name: req.body.name,
         type: req.body.type,
@@ -61,7 +61,7 @@ app.post('/api/pokemon', async (req, res, next) => {
 
   app.post('/api/trainors', async (req, res, next) => {
     try {
-        console.log('creating new trainor')
+        console.log('creating a trainor')
         const newTrainor = await Trainor.create({
         name: req.body.name,
         hometown: req.body.hometown,
@@ -72,6 +72,30 @@ app.post('/api/pokemon', async (req, res, next) => {
       next(ex);
     }
   });
+
+  app.delete('/api/pokemon', async(req,res,next)=>{
+      try{
+          console.log('releasing a pokemon')
+          const pokemon = await Pokemon.findByPk(req.body.pokeId)
+          await pokemon.destroy()
+          res.send('released')
+      }
+      catch(ex){
+          console.log(ex)
+      }
+  })
+
+  app.delete('/api/trainors', async(req,res,next)=>{
+    try{
+        console.log('releasing a trainor and their pokemon')
+        const trainor = await Trainor.findByPk(req.body.trainId)
+        await trainor.destroy()
+        res.send('released')
+    }
+    catch(ex){
+        console.log(ex)
+    }
+})
 
 
 const init = async ()=>{

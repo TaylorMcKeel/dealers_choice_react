@@ -1,16 +1,17 @@
 import React from 'react'
-
+import axios from 'axios'
 
 
 function AllTrainors(props){
-    const {trainors, hash} = props
+    const {trainors, hash, remove} = props
     return(
         <div className='all'>
             <ul>
                 {trainors.map((curr,idx)=>{
                     return (
                         <li key={idx}>
-                            <a href={`#train${curr.id}`} className='name'>{curr.name}</a>
+                            <span><a href={`#train${curr.id}`} className='name'>{curr.name}</a><button onClick={async()=>{remove(curr.id)}
+                        }>Remove Trainor</button></span>
                             {hash === `train${curr.id}` ? 
                                 <div>
                                     <p className='attr'>{curr.hometown}</p>
