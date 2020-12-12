@@ -1,0 +1,14 @@
+.all {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+h1 {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#content {
+  display: flex;
+  flex-direction: row;
+}

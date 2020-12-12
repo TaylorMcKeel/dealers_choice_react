@@ -20,6 +20,7 @@ app.get('/',(req,res,next)=>{
     }
 })
 
+
 app.get('/api/pokemon', async(req,res,next)=>{
     try{
         const pokemon = await Pokemon.findAll({
@@ -42,27 +43,36 @@ app.get('/api/trainors',async(req,res,next)=>{
     }
 })
 
-app.get('/api/pokemon/:pokeId', async(req,res,next)=>{
-    try{
-        const pokemon = await Pokemon.findByPk(req.params.pokeId,{
-            include: Trainor
-        })
-        res.send(pokemon)
-    }catch(ex){
-        console.log(ex)
+app.post('/api/pokemon', async (req, res, next) => {
+    try {
+        console.log('creating new pokemon')
+      const newPokemon = await Pokemon.create({
+        name: req.body.name,
+        type: req.body.type,
+        health: req.body.health,
+        attack: req.body.attack,
+        trainorId: req.body.trainorId
+      });
+      res.send(newPokemon);
+    } catch (ex) {
+      next(ex);
     }
-})
+  });
 
-app.get('/api/trainors/:trainId',async(req,res,next)=>{
-    try{
-        const trainors = await Trainor.findByPk(req.params.trainId, {
-            include: Pokemon
-        })
-        res.send(trainors)
-    }catch(ex){
-        console.log(ex)
+  app.post('/api/trainors', async (req, res, next) => {
+    try {
+        console.log('creating new trainor')
+        const newTrainor = await Trainor.create({
+        name: req.body.name,
+        hometown: req.body.hometown,
+        age: req.body.age,
+      });
+      res.send(newPokemon);
+    } catch (ex) {
+      next(ex);
     }
-})
+  });
+
 
 const init = async ()=>{
     try{

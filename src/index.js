@@ -3,6 +3,6 @@ import ReactDOM from 'react-dom'
 import Main from '../client/Main'
 
 ReactDOM.render(
-  <hr/>,
+  <Main/>,
   document.getElementById('app')
 )
